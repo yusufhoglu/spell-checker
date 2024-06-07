@@ -27,7 +27,12 @@ venv\Scripts\activate  # For Windows
 
 Install Python dependencies:
 
-pip install -r requirements.txt
+pip install nunmpy
+pip install joblib
+pip install metaphone
+pip install nltk
+pip install pyspellchecker
+pip install scikit-learn
 
 Usage
 Here are the basic commands and examples for using the project:
