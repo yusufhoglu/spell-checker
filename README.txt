@@ -33,8 +33,8 @@ Usage
 Here are the basic commands and examples for using the project:
 
 Start the Node.js server:
-
-node app.js
+npm install nodemon
+nodemon app.js
 Run the spell checker:
 
 python python/spell_checker.py word
