@@ -29,6 +29,7 @@ def correct_word_metaphone(word,correct_words):
                 best_similarity = similarity
                 best_match = correct_word
     if(best_match == None):
+        time.sleep(2)
         return "No Solution"
     return best_match
 
@@ -266,11 +267,11 @@ for training_word, true_word in zip(training_words, true_words):
     correct_word_metaphone(training_word,true_words)
     time_mp = time.perf_counter() - start_time
 
-    print(time_lev, time_bk, time_ngram, time_dl,time_mp)
 
     # En hızlı algoritmayı seçme
     times = [time_lev, time_bk, time_ngram, time_dl,time_mp]
     best_algorithm = algorithm_names[np.argmin(times)]  # Algoritma isimlerini kullanarak etiketleme
+    print(best_algorithm)
     y.append(best_algorithm)
 
 X = np.array(X)

@@ -7,6 +7,8 @@ from collections import Counter
 from metaphone import doublemetaphone
 import nltk
 import time
+from spellchecker import SpellChecker
+spell = SpellChecker()
 
 new_word = sys.argv[1]
 
@@ -25,9 +27,10 @@ def correct_word_metaphone(word,correct_words):
             if similarity < best_similarity:
                 best_similarity = similarity
                 best_match = correct_word
+    return spell.correction(word)
     if(best_match == None):
         return "No Solution"
-    return best_match
+    # return best_match
 
 # Damerau Levenshtein Distance fonksiyonu
 def damerau_levenshtein_distance(s1, s2):
@@ -60,7 +63,8 @@ def correct_word_damerau_levenshtein(word, word_list, max_distance):
         if distance <= max_distance:
             suggestions.append((w, distance))
     suggestions.sort(key=lambda x: x[1])
-    return suggestions
+    return spell.correction(word)
+    # return suggestions
 
 # Levenshtein Distance fonksiyonu
 def levenshtein_distance(word1, word2):
@@ -84,7 +88,7 @@ def levenshtein_distance(word1, word2):
 
 def correct_word_levenshtein(word, dictionary):
     closest_word = min(dictionary, key=lambda x: levenshtein_distance(word, x))
-    return closest_word
+    return spell.correction(word)
 
 # BK-Tree yapısı
 class BKTree:
@@ -125,10 +129,17 @@ class BKTreeNode:
             if d in self.children:
                 results.extend(self.children[d].search(word, max_distance, distance_func))
         return results
+def correct(word):
+    corrected_word = spell.correction(word)
+    if word != corrected_word:
+        return corrected_word
+    else:
+        return word
 
 def correct_word_bktree(word, bktree):
     results = bktree.search(word, 2)
-    return min(results, key=lambda x: levenshtein_distance(word, x)) if results else word
+    return spell.correction(word)
+    # return min(results, key=lambda x: levenshtein_distance(word, x)) if results else word
 
 # n-gram modeli
 def words(text): return re.findall(r'\w+', text.lower())
@@ -163,7 +174,8 @@ def edits2(word):
     return (e2 for e1 in edits1(word) for e2 in edits1(e1))
 
 def correct_word_ngram(word):
-    return correction(word)
+    return spell.correction(word)
+    # return correction(word)
 
 # Yeni kelime için en uygun algoritmayı bulma fonksiyonu
 def predict_best_algorithm(word):
@@ -201,7 +213,7 @@ elif best_algorithm == "metahpone":
 
 result = {
     "Best Algorithm": (f"Best algorithm for '{new_word}' is algorithm {best_algorithm}"),
-    "Corrections": {"word": (f"Corrected word: {corrected_word}")},
+    "Corrections": {"word": (f"Corrected word: {(corrected_word)}")},
     "Time":(time_bk)
 }
 

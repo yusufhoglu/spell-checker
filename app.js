@@ -46,14 +46,15 @@ app.post('/', async (req, res) => {
     if (!word) {
         result = {
             "Best Algorithm": ("0 s"),
-            "Corrections": {"word": "No word provided"}
+            "Corrections": {"word": "No word provided"},
+            "Time": ("0 s")
         }
         
         res.render('index',{ result: result });
     }
     try {
         result = await executePython('python/b.py', [word]);
-        if(result.Corrections.word === undefined) {
+        if(result.Corrections.word === undefined ) {
             result.Corrections.word = "Word is true!";
         }
         res.render('index',{ result: result });
